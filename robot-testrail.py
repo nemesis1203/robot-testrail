@@ -72,7 +72,8 @@ def main():
 		for file in files:
 			if not fnmatch.fnmatch(file, '*output.xml'):
 				continue
-			cidstatus = parse_uat_result(file)		
+			print str(file)  
+			cidstatus = parse_uat_result(os.path.join(folder, file))		
 			for cid in iter(cidstatus):
 				print "Updating test result for case:" + str(cid)
 				resp = client.send_post('add_result_for_case/' + str(run['id']) + '/' + str(cid),{"status_id":cidstatus[cid]})
