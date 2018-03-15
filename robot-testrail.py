@@ -72,7 +72,7 @@ def main():
 		for file in files:
 			if not fnmatch.fnmatch(file, '*output.xml'):
 				continue
-			print str(file)  
+			print(file)  
 			cidstatus = parse_uat_result(os.path.join(folder, file))		
 			for cid in iter(cidstatus):
 				print "Updating test result for case:" + str(cid)
