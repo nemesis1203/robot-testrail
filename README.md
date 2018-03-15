@@ -13,3 +13,4 @@ https://github.com/gurock/testrail-api/tree/master/python/2.x
 
 # Usage
 python robot-testrail.py --folder=./UAT --pid=PROJECT_ID --user=USER --pwd=PWD --testrail=https://YOUR_IP/testrail
+python robot-testrail.py --pid=16 --suiteid=33 --run="test run 1234"--user=USER --pwd=PWD --testrail=https://YOUR.testrail.com
