@@ -17,7 +17,7 @@ def parse_uat_result(filename):
 			if cid_str[:4] == "CID:":
 				cid = cid_str[4:]
 				status = test.getElementsByTagName('status')
-				cidstatus[cid] = '1' if status[-1].attributes['status'].value=="PASS" else '5'
+				cidstatus[cid].status = '1' if status[-1].attributes['status'].value=="PASS" else '5'
 	return cidstatus
 
 
@@ -81,7 +81,7 @@ def main():
 			cidstatus = parse_uat_result(os.path.join(folder, file))		
 			for cid in iter(cidstatus):
 				print "Updating test result for case:" + str(cid)
-				resp = client.send_post('add_result_for_case/' + str(run['id']) + '/' + str(cid),{"status_id":cidstatus[cid]})
+				resp = client.send_post('add_result_for_case/' + str(run['id']) + '/' + str(cid),{"status_id":cidstatus[cid].status})
 		#pprint(resp)
 	print "Done!"
 
