@@ -19,7 +19,7 @@ def parse_uat_result(filename):
 				status = test.getElementsByTagName('status')
 				msg = test.find("//msg[@level='FAIL']").text
 				print(msg)
-				cidstatus[cid] = {status : '1' if status[-1].attributes['status'].value=="PASS" else '5', comment : msg}
+				cidstatus[cid] = type('',(object,),{status : '1' if status[-1].attributes['status'].value=="PASS" else '5', comment : msg})()
 	return cidstatus
 
 
