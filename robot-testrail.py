@@ -26,12 +26,12 @@ def main():
 	ssl._create_default_https_context = ssl._create_unverified_context
 	resultxml = "output.xml"
 	projectid = 0
-	user = "admin"
+	user = "qateam@7peakssoftware.com"
 	pwd = ""
-	folder = "./"
+	folder = "output"
 	suite_id = 33
 	run_name = "Automated test run"
-	testrail_url = "https://172.18.51.100/testrail/"
+	testrail_url = "hhttps://7peakssoftware.testrail.com"
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], "",["pid=", "suiteid=", "folder=", "user=", "pwd=", "testrail=", "run="])
 	except getopt.GetoptError as err:
@@ -70,7 +70,7 @@ def main():
 
 	for root, dirs, files in os.walk(folder):
 		for file in files:
-			if not fnmatch.fnmatch(file, '*output.xml'):
+			if not fnmatch.fnmatch(file, '*'+resultxml):
 				continue
 			print(file)  
 			cidstatus = parse_uat_result(os.path.join(folder, file))		
