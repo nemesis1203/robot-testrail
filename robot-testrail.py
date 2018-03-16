@@ -22,21 +22,35 @@ def parse_uat_result(filename):
                 cid = cid_str[4:]
                 status = test.getElementsByTagName('status')
                 name = test.attributes['name'].value.encode('utf-8')
+                
+                #extract test steps
                 detail = ''
                 for step in test.getElementsByTagName('msg'): 
                     detail = detail + '\r\n - ' + step.firstChild.data.encode('utf-8')
-                    
-                msg = ' by automation \r\n' + test.getElementsByTagName(
-                    'msg')[-1].firstChild.data.encode('utf-8') + '\r\nTest name: '+ name + '\r\n' + step
                 
                 state = '1' if status[-1].attributes['status'].value == "PASS" else '5'
+                failure = test.getElementsByTagName('msg')[-1].firstChild.data.encode('utf-8')
+                
+                #build comment
+                msg = ' by automation \r\nTest name: '+ name 
+                if state == '5':
+                    msg = msg + '\r\nFailure: ' + failure
+                msg = msg + '\r\n' + detail
+
+                if state == '5':
+                    msg = 'FAILED'+msg
+                else:
+                    msg = 'PASSED'+msg    
+
+                #extract duration
                 start = datetime.datetime.strptime(
                     status[-1].attributes['starttime'].value, "%Y%m%d %H:%M:%S.%f")
                 end = datetime.datetime.strptime(
                     status[-1].attributes['endtime'].value, "%Y%m%d %H:%M:%S.%f")
                 duration = int((end - start).total_seconds())
-                element = {'status': state, 'comment': 'FAILED'+msg if state ==
-                           '5' else 'PASSED'+msg, 'time': str(duration)+'s'}
+                
+                #return object
+                element = {'status': state, 'comment': msg, 'time': str(duration)+'s'}
                 cidstatus[cid] = element
 
     return cidstatus
