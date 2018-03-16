@@ -6,6 +6,8 @@ import ssl
 import os
 import fnmatch
 
+
+
 def parse_uat_result(filename):
 	cidstatus = {}
 	xmldoc = xml.dom.minidom.parse(filename)
@@ -17,11 +19,14 @@ def parse_uat_result(filename):
 			if cid_str[:4] == "CID:":
 				cid = cid_str[4:]
 				status = test.getElementsByTagName('status')
-				msg = test.getElementsByTagName('msg')[-1].text
+				msg = test.getElementsByTagName('msg')[-1].firstChild.data
 				print(msg)
-				cidstatus[cid] = type('',(object,),{status : '1' if status[-1].attributes['status'].value=="PASS" else '5', comment : msg})()
-	return cidstatus
+				state = '1' if status[-1].attributes['status'].value=="PASS" else '5'
+				print(state)
+				element = {'status':state, 'comment':msg if state == '5' else 'PASSED'}
+				cidstatus[cid] = element
 
+	return cidstatus
 
 def main():
 
@@ -83,4 +88,9 @@ def main():
 			cidstatus = parse_uat_result(os.path.join(folder, file))		
 			for cid in iter(cidstatus):
 				print "Updating test result for case:" + str(cid)
-				resp = client.send_post('add_result_for_case
+				resp = client.send_post('add_result_for_case/' + str(run['id']) + '/' + str(cid),{"status_id":cidstatus[cid]['status'], "comment":cidstatus[cid]['comment']})
+
+ 		#pprint(resp)
+ 	print "Done!"
+
+main()
