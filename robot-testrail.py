@@ -77,7 +77,7 @@ def main():
 	client.password = pwd
 
 	run = client.send_post('add_run/' + str(projectid), 
-		{"suite_id": suite_id,"name": run_name,"assignedto_id": 1,"include_all":"1"})
+		{"suite_id": suite_id,"name": run_name,"assignedto_id": 1,"include_all":"1","description":"Automated test-run initiated by :"+run_name})
 
 	for root, dirs, files in os.walk(folder):
 		for file in files:
