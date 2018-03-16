@@ -31,7 +31,7 @@ def main():
 	folder = "output"
 	suite_id = 33
 	run_name = "Automated test run"
-	testrail_url = "hhttps://7peakssoftware.testrail.com"
+	testrail_url = "https://7peakssoftware.testrail.com"
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], "",["pid=", "suiteid=", "folder=", "user=", "pwd=", "testrail=", "run=", "resultxml="])
 	except getopt.GetoptError as err:
