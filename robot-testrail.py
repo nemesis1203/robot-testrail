@@ -110,16 +110,16 @@ def main():
     run = client.send_post('add_run/' + str(projectid),
                            {"suite_id": suite_id, "name": run_name, "assignedto_id": 1, "include_all": "1", "description": "Automated test-run initiated by :"+run_name})
 
-    for root, dirs, files in os.walk(folder):
-        for file in files:
-            if not fnmatch.fnmatch(file, '*'+resultxml):
-                continue
-            print(file)
-            cidstatus = parse_uat_result(os.path.join(folder, file))
-            for cid in iter(cidstatus):
-                print "Updating test result for case:" + str(cid)
-                resp = client.send_post('add_result_for_case/' + str(run['id']) + '/' + str(cid), {
-                                        "status_id": cidstatus[cid]['status'], "comment": cidstatus[cid]['comment'], "elapsed": cidstatus[cid]['time'], "version": run_name})
+    #for root, dirs, files in os.walk(folder):
+        #for file in files:
+            #if not fnmatch.fnmatch(file, '*'+resultxml):
+            #    continue
+            #print(file)
+    cidstatus = parse_uat_result(os.path.join(folder, resultxml))
+    for cid in iter(cidstatus):
+        print "Updating test result for case:" + str(cid)
+        resp = client.send_post('add_result_for_case/' + str(run['id']) + '/' + str(cid), {
+                                "status_id": cidstatus[cid]['status'], "comment": cidstatus[cid]['comment'], "elapsed": cidstatus[cid]['time'], "version": run_name})
 
         # pprint(resp)
     print "Done!"
