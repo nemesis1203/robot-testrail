@@ -21,7 +21,7 @@ def parse_uat_result(filename):
             if cid_str[:4] == "CID:":
                 cid = cid_str[4:]
                 status = test.getElementsByTagName('status')
-                name = test.attributes['name'].value
+                name = test.attributes['name'].value.encode('utf-8')
                 msg = 'FAILED by automation \r\n' + test.getElementsByTagName(
                     'msg')[-1].firstChild.data.encode('utf-8') + '\r\nTest name: '+ name
                 state = '1' if status[-1].attributes['status'].value == "PASS" else '5'
