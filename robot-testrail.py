@@ -21,8 +21,9 @@ def parse_uat_result(filename):
             if cid_str[:4] == "CID:":
                 cid = cid_str[4:]
                 status = test.getElementsByTagName('status')
+                name = test.attributes['name'].value
                 msg = 'FAILED by automation \r\n' + test.getElementsByTagName(
-                    'msg')[-1].firstChild.data.encode('utf-8')
+                    'msg')[-1].firstChild.data.encode('utf-8') + '\r\nTest name: '+ name
                 state = '1' if status[-1].attributes['status'].value == "PASS" else '5'
                 start = datetime.datetime.strptime(
                     status[-1].attributes['starttime'].value, "%Y%m%d %H:%M:%S.%f")
@@ -30,7 +31,7 @@ def parse_uat_result(filename):
                     status[-1].attributes['endtime'].value, "%Y%m%d %H:%M:%S.%f")
                 duration = int((end - start).total_seconds())
                 element = {'status': state, 'comment': msg if state ==
-                           '5' else 'PASSED by automation', 'time': str(duration)+'s'}
+                           '5' else 'PASSED by automation' + '\r\nTest name: '+ name, 'time': str(duration)+'s'}
                 cidstatus[cid] = element
 
     return cidstatus
