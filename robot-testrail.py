@@ -1,6 +1,6 @@
 from testrail import *
 from pprint import *
-import sys,getopt
+import sys,codecs,getopt
 import xml.dom.minidom
 import ssl
 import os
@@ -27,7 +27,8 @@ def parse_uat_result(filename):
 	return cidstatus
 
 def main():
-
+	UTF8Writer = codecs.getwriter('utf8')
+	sys.stdout = UTF8Writer(sys.stdout)
 	ssl._create_default_https_context = ssl._create_unverified_context
 	resultxml = "output.xml"
 	projectid = 0
