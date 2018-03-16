@@ -19,7 +19,7 @@ def parse_uat_result(filename):
 			if cid_str[:4] == "CID:":
 				cid = cid_str[4:]
 				status = test.getElementsByTagName('status')
-				msg = test.getElementsByTagName('msg')[-1].firstChild.data
+				msg = test.getElementsByTagName('msg')[-1].firstChild.data.encode('utf-8')
 				print(msg)
 				state = '1' if status[-1].attributes['status'].value=="PASS" else '5'
 				print(state)
