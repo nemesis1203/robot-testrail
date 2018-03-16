@@ -33,7 +33,7 @@ def main():
 	run_name = "Automated test run"
 	testrail_url = "hhttps://7peakssoftware.testrail.com"
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], "",["pid=", "suiteid=", "folder=", "user=", "pwd=", "testrail=", "run="])
+		opts, args = getopt.getopt(sys.argv[1:], "",["pid=", "suiteid=", "folder=", "user=", "pwd=", "testrail=", "run=", "resultxml="])
 	except getopt.GetoptError as err:
 		# print help information and exit:
 		print str(err) # will print something like "option -a not recognized"
@@ -51,6 +51,8 @@ def main():
 			pwd = a;
 		elif o == "--testrail":
 			testrail_url = a;
+		elif o == "--resultxml":
+			resultxml = a;			
 		elif o == "--run":
 			run_name = a;			
 		else:
@@ -61,6 +63,9 @@ def main():
 	print "TestRail URL:" + testrail_url
 	print "Suite ID:" + str(suite_id) 
 	print "Run:" + str(run_name) 
+	print "Folder:" + str(folder) 
+	print "Result file:" + str(resultxml) 
+	
 	client = APIClient(testrail_url)
 	client.user = user
 	client.password = pwd
